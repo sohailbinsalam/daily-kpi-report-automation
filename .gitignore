@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# runtime output (regenerate with: python run_daily.py --sample 30)
+data/
+reports/
+logs/
+
+# never commit secrets
+.env
+*.secret

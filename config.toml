@@ -1,0 +1,114 @@
+# Daily KPI report pipeline settings.
+# Paths are relative to this file.
+
+[paths]
+inbox = "data/inbox"          # new daily Excel files land here
+archive = "data/archive"      # processed files are moved here
+warehouse = "data/warehouse"  # clean history (CSV) used for trends
+rejects = "data/rejects"      # rows that failed validation, for review
+reports = "reports"           # generated PowerPoint decks
+outbox = "data/outbox"        # .eml copies of every email (dry-run and real)
+logs = "logs"
+
+[report]
+title = "Daily KPI Report"
+platform_name = "Sample Service Platform"
+trend_days = 14
+footer = "Sample data for demonstration only"
+
+[email]
+# "dry_run" writes the email to data/outbox as an .eml file you can open in Outlook.
+# "smtp" sends it through the SMTP server below.
+mode = "dry_run"
+sender = "kpi-reports@example.com"
+recipients = ["ops-team@example.com", "managers@example.com"]
+subject = "Daily KPI Report - {date}"
+smtp_host = "smtp.example.com"
+smtp_port = 587
+use_starttls = true
+username = "kpi-reports@example.com"
+password_env = "KPI_SMTP_PASSWORD"   # the password is read from this environment variable, never stored here
+
+# KPI definitions. Column names must match the daily Excel file.
+#   agg    = "weighted" (average weighted by Unit_Count) or "sum"
+#   better = "higher" or "lower" (decides red/green)
+#   target = omit for volume KPIs that have no target
+
+[[kpi]]
+column = "Uptime_pct"
+label = "Service Uptime"
+unit = "%"
+agg = "weighted"
+better = "higher"
+target = 99.5
+decimals = 2
+
+[[kpi]]
+column = "Request_Success_pct"
+label = "Request Success Rate"
+unit = "%"
+agg = "weighted"
+better = "higher"
+target = 98.5
+decimals = 2
+
+[[kpi]]
+column = "Error_Rate_pct"
+label = "Error Rate"
+unit = "%"
+agg = "weighted"
+better = "lower"
+target = 0.8
+decimals = 2
+
+[[kpi]]
+column = "Login_Success_pct"
+label = "Login Success Rate"
+unit = "%"
+agg = "weighted"
+better = "higher"
+target = 99.0
+decimals = 2
+
+[[kpi]]
+column = "Transfer_Success_pct"
+label = "Transfer Success Rate"
+unit = "%"
+agg = "weighted"
+better = "higher"
+target = 97.0
+decimals = 2
+
+[[kpi]]
+column = "Response_Time_ms"
+label = "Response Time"
+unit = "ms"
+agg = "weighted"
+better = "lower"
+target = 35
+decimals = 1
+
+[[kpi]]
+column = "Speed_Mbps"
+label = "Average Speed"
+unit = "Mbps"
+agg = "weighted"
+better = "higher"
+target = 25
+decimals = 1
+
+[[kpi]]
+column = "Data_Volume_TB"
+label = "Data Volume"
+unit = "TB"
+agg = "sum"
+better = "higher"
+decimals = 1
+
+[[kpi]]
+column = "Sessions_k"
+label = "Sessions"
+unit = "k"
+agg = "sum"
+better = "higher"
+decimals = 1
